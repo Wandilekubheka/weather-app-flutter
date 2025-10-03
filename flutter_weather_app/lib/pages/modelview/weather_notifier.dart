@@ -4,7 +4,9 @@ import 'package:flutter_weather_app/data/services/weather_service.dart';
 
 class WeatherNotifier extends StateNotifier<WeatherState> {
   final WeatherService _weatherService;
-  WeatherNotifier(this._weatherService) : super(WeatherState.initial());
+  WeatherNotifier(this._weatherService) : super(WeatherState.initial()) {
+    fetchWeather("Oakdene");
+  }
 
   Future<void> fetchWeather(String city) async {
     try {
