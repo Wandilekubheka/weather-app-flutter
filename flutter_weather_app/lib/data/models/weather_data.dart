@@ -5,6 +5,9 @@ class WeatherData {
   final int humidity;
   final double windSpeed;
   final int rainChance;
+  double latitude;
+  double longitude;
+  String countryCode;
 
   WeatherData({
     required this.cityName,
@@ -13,10 +16,13 @@ class WeatherData {
     required this.humidity,
     required this.windSpeed,
     required this.rainChance,
+    required this.latitude,
+    required this.longitude,
+    required this.countryCode,
   });
-  factory WeatherData.fromJson(Map<String, dynamic> json) {
+  factory WeatherData.fromJsonAPI(Map<String, dynamic> json) {
     final data = json['data'][0];
-
+    print(data);
     return WeatherData(
       cityName: data['city_name'] ?? '',
       temperature: (data['temp'] ?? 0).toDouble(),
@@ -24,6 +30,23 @@ class WeatherData {
       humidity: data['rh'] ?? 0,
       windSpeed: (data['wind_speed'] ?? 0).toDouble(),
       rainChance: (data['precip'] ?? 0).toInt(),
+      latitude: (data['lat'] ?? 0).toDouble(),
+      longitude: (data['lon'] ?? 0).toDouble(),
+      countryCode: data['country_code'] ?? 'N/A',
+    );
+  }
+
+  factory WeatherData.fromJson(Map<String, dynamic> json) {
+    return WeatherData(
+      cityName: json['cityName'] ?? '',
+      temperature: (json['temperature'] ?? 0).toDouble(),
+      description: json['description'] ?? 'N/A',
+      humidity: json['humidity'] ?? 0,
+      windSpeed: (json['windSpeed'] ?? 0).toDouble(),
+      rainChance: (json['rainChance'] ?? 0).toInt(),
+      latitude: (json['latitude'] ?? 0).toDouble(),
+      longitude: (json['longitude'] ?? 0).toDouble(),
+      countryCode: json['countryCode'] ?? 'N/A',
     );
   }
 
@@ -35,6 +58,9 @@ class WeatherData {
       'humidity': humidity,
       'windSpeed': windSpeed,
       'rainChance': rainChance,
+      'latitude': latitude,
+      'longitude': longitude,
+      'countryCode': countryCode,
     };
   }
 }

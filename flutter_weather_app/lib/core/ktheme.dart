@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 abstract class Ktheme {
   static final appTheme = ThemeData.dark().copyWith(
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
     iconTheme: const IconThemeData(color: Colors.white, size: 24),
     iconButtonTheme: IconButtonThemeData(
       style: IconButton.styleFrom(foregroundColor: Colors.white, iconSize: 24),
@@ -46,5 +45,12 @@ abstract class Ktheme {
         fontWeight: FontWeight.bold,
       ),
     ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: Color(0xFF121212),
+      elevation: 0,
+      centerTitle: true,
+      iconTheme: IconThemeData(color: Colors.white, size: 24),
+    ),
+    dialogBackgroundColor: const Color(0xFF121212),
   );
 }

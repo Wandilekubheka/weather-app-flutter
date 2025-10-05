@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_weather_app/core/providers.dart';
+import 'package:flutter_weather_app/pages/screens/add_location.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -14,15 +14,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final _weatherState = ref.watch(weatherProvider);
-
-    if (_weatherState.isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
     if (_weatherState.error != null) {
       return Scaffold(
         body: Center(child: Text("Error: ${_weatherState.error}")),
       );
     }
+    if (_weatherState.isLoading || _weatherState.weatherData == null) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -31,18 +31,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             child: Column(
               spacing: 20,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "Oakdene, ZA",
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: Colors.white54,
-                    ),
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AddLocation(),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        _weatherState.weatherData!.cityName,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: Colors.white54,
+                      ),
+                    ],
+                  ),
                 ),
                 // header content
                 // Main content
@@ -54,7 +64,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Image.asset("assets/icons/storm.png", height: 200),
+                Image.asset("assets/icons/wind.png", height: 200),
                 const SizedBox(height: 20),
                 Text(formatDate(DateTime.now())),
                 Text(
